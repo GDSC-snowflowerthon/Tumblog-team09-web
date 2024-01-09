@@ -7,8 +7,13 @@ import MyPage from "./pages/MyPage";
 const route = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <Outlet />,
     children: [
+      {
+        path: "home",
+        element: <Home />,
+        children: [],
+      },
       {
         path: "ranking",
         element: <Ranking />,
