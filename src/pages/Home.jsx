@@ -1,7 +1,12 @@
 import React from "react";
+import { Container, PageContainer } from "../styles/PageLayout";
 
 const Home = () => {
-  return <div>home 페이지 입니다.</div>;
+  return (
+    <PageContainer>
+      <Container>home 페이지 입니다. </Container>
+    </PageContainer>
+  );
 };
 
 export default Home;
