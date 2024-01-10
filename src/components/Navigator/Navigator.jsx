@@ -45,6 +45,7 @@ const Container = styled.div`
   width: 100%;
   height: 72px;
   border-top: 1px solid ${COLORS.gray};
+  background-color: white;
 `;
 
 const MenuBox = styled.div`
