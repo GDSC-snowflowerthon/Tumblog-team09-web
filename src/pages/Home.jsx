@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { Container, PageContainer } from "../styles/PageLayout";
 import styled from "styled-components";
+import Calendar from "../components/Calendar/Calendar";
 
 const Home = () => {
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   return (
     <PageContainer>
       <Container style={{ padding: "1.5rem" }}>
@@ -21,9 +26,15 @@ const Home = () => {
           <TreeGroundBox></TreeGroundBox>
         </TreesBox>
 
-        <CalendarBox>
-          <CalendarText>텀블로그</CalendarText>
-        </CalendarBox>
+        <CalendarText>텀블로그</CalendarText>
+        <CalendarWrapper>
+          <Calendar
+            currentMonth={currentMonth}
+            setCurrentMonth={setCurrentMonth}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+          />
+        </CalendarWrapper>
       </Container>
     </PageContainer>
   );
@@ -64,11 +75,16 @@ const TreeGroundBox = styled.div`
   background: #8d6b42;
 `;
 
-const CalendarBox = styled.div`
-  margin-top: 30px;
+const CalendarWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
 `;
 
 const CalendarText = styled.div`
+  margin-top: 30px;
+  margin-bottom: 10px;
   font-size: 18px;
   font-weight: bold;
 `;
