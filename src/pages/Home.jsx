@@ -5,11 +5,14 @@ import Calendar from "../components/Calendar/Calendar";
 import Modal from "../components/Modal/Modal";
 import { useAtom } from "jotai";
 import { modalState } from "../atoms/modalState";
+import Button from "../components/Button";
+import { Icon } from "@iconify/react";
 
 const Home = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isOpen, setIsOpen] = useAtom(modalState);
+  const [isSecondOpen, setIsSecond] = useState(false);
 
   return (
     <>
@@ -44,7 +47,25 @@ const Home = () => {
       </PageContainer>
       {isOpen && (
         <>
-          <Modal isOpen={isOpen} setIsOpen={setIsOpen}></Modal>
+          <Modal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            isSecond={isSecondOpen}
+            setIsSecond={setIsSecond}
+            buttonTxt={"다음"}
+          >
+            <TitleBox>영수증 인식</TitleBox>
+            <ExplainBox>
+              촬영한 영수증에서 날짜, 메뉴, 사이즈, 할인금액을 추출해
+              <br />
+              자동으로 입력해요!
+            </ExplainBox>
+            <ImageUploadBox>
+              <Icon icon="solar:camera-bold" width="28" />
+            </ImageUploadBox>
+          </Modal>
+        </>
+      )}
         </>
       )}
     </>
@@ -98,6 +119,27 @@ const CalendarText = styled.div`
   margin-bottom: 10px;
   font-size: 18px;
   font-weight: bold;
+`;
+
+const TitleBox = styled.div`
+  font-size: 18px;
+  font-weight: 700;
+`;
+const ExplainBox = styled.div`
+  margin-top: 0.5rem;
+  color: #8c8c8c;
+  font-size: 12px;
+  font-weight: 400;
+`;
+const ImageUploadBox = styled.div`
+  background-color: #d9d9d9;
+  width: 159px;
+  height: 159px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem auto;
 `;
 
 export default Home;

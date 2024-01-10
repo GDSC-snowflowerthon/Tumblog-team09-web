@@ -1,9 +1,30 @@
 import styled from "styled-components";
+import Button from "../Button";
+import { useEffect, useRef } from "react";
 
-const Modal = ({ isOpen, setIsOpen, children }) => {
+const Modal = ({
+  isOpen,
+  setIsOpen,
+  buttonTxt,
+  isSecond,
+  setIsSecond,
+  children,
+}) => {
   return (
     <ModalOverlay onClick={() => setIsOpen(!isOpen)}>
-      <ModalContent>{children}</ModalContent>
+      <ModalContent>
+        <ContentBox onClick={(e) => e.stopPropagation()}>{children}</ContentBox>
+        <ButtonBox
+          onClick={() => {
+            if (setIsSecond) {
+              setIsSecond(!isSecond);
+              setIsOpen(!isOpen);
+            }
+          }}
+        >
+          <Button text={buttonTxt}></Button>
+        </ButtonBox>
+      </ModalContent>
     </ModalOverlay>
   );
 };
@@ -26,5 +47,9 @@ const ModalContent = styled.div`
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 `;
+
+const ContentBox = styled.div``;
+
+const ButtonBox = styled.div``;
 
 export default Modal;
