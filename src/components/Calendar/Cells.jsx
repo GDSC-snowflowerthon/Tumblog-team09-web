@@ -120,14 +120,14 @@ const Container = styled.div`
 `;
 
 const CellBox = styled.div`
-  width: 45px;
+  width: 12vw;
   display: flex;
   flex-direction: column;
 `;
 
 const RowBox = styled.div`
   display: flex;
-  height: 45px;
+  height: 10.5vw;
   margin-bottom: 5px;
 `;
 
@@ -144,8 +144,8 @@ const Body = styled.div`
 
 const ColorSquare = styled.div`
   background-color: ${(props) => (props.use ? COLORS.mainColor : COLORS.gray)};
-  width: 22px;
-  height: 22px;
+  width: 5vw;
+  height: 5vw;
   border-radius: 5px;
 `;
 

@@ -19,7 +19,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   .col {
-    width: 45px;
+    width: 12vw;
     display: flex;
     justify-content: center;
     align-items: center;
