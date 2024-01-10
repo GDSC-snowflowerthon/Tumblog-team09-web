@@ -8,6 +8,7 @@ const Modal = ({
   buttonTxt,
   isSecond,
   setIsSecond,
+  btnFunc,
   children,
 }) => {
   return (
@@ -19,6 +20,9 @@ const Modal = ({
             if (setIsSecond) {
               setIsSecond(!isSecond);
               setIsOpen(!isOpen);
+            }
+            if (btnFunc) {
+              console.log("등록");
             }
           }}
         >

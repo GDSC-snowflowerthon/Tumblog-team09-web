@@ -7,12 +7,19 @@ import { useAtom } from "jotai";
 import { modalState } from "../atoms/modalState";
 import Button from "../components/Button";
 import { Icon } from "@iconify/react";
+import COLORS from "../styles/colors";
 
 const Home = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isOpen, setIsOpen] = useAtom(modalState);
   const [isSecondOpen, setIsSecond] = useState(false);
+  const [sizeState, setSizeState] = useState([true, false, false]);
+  const size = ["S", "M", "L"];
+
+  const handleEnroll = () => {
+    // TODO: 등록 api 연결하기
+  };
 
   return (
     <>
@@ -66,6 +73,53 @@ const Home = () => {
           </Modal>
         </>
       )}
+      {isSecondOpen && (
+        <>
+          <Modal
+            isOpen={isSecondOpen}
+            setIsOpen={setIsSecond}
+            buttonTxt={"등록하기"}
+            btnFunc={handleEnroll}
+          >
+            <TitleBox>이 정보가 맞나요?</TitleBox>
+            <ExplainBox>
+              OCR을 사용하여 영수증에서 추출한 정보들을 토대로
+              <br />
+              자동으로 입력한 정보에요!
+            </ExplainBox>
+            <InfoBox style={{ marginTop: "25px" }}>
+              <InfoTitleBox>날짜</InfoTitleBox>
+              <InfoInput type="text"></InfoInput>
+            </InfoBox>
+            <InfoBox>
+              <InfoTitleBox>메뉴</InfoTitleBox>
+              <InfoInput type="text"></InfoInput>
+            </InfoBox>
+            <InfoBox>
+              <InfoTitleBox>사이즈</InfoTitleBox>
+              <SizeBox>
+                {size.map((el, idx) => {
+                  return (
+                    <SizeBtn
+                      state={sizeState[idx]}
+                      onClick={() => {
+                        const newSizeState = sizeState.map((state, i) =>
+                          i === idx ? true : false
+                        );
+                        setSizeState(newSizeState);
+                      }}
+                    >
+                      {el}
+                    </SizeBtn>
+                  );
+                })}
+              </SizeBox>
+            </InfoBox>
+            <InfoBox style={{ marginBottom: "30px" }}>
+              <InfoTitleBox>할인 금액</InfoTitleBox>
+              <InfoInput type="text"></InfoInput>
+            </InfoBox>
+          </Modal>
         </>
       )}
     </>
@@ -140,6 +194,51 @@ const ImageUploadBox = styled.div`
   justify-content: center;
   align-items: center;
   margin: 1rem auto;
+`;
+
+const InfoBox = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+`;
+
+const InfoTitleBox = styled.div`
+  width: 72px;
+  font-size: 15px;
+  font-weight: 600;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+`;
+const InfoInput = styled.input`
+  border: none;
+  border-bottom: 1px solid #c6c6c6;
+  width: 40vw;
+  font-size: 13px;
+
+  :focus {
+    outline: none;
+    border: none;
+  }
+`;
+const SizeBtn = styled.div`
+  width: 47px;
+  height: 29px;
+  border-radius: 20px;
+  border: 1px solid ${COLORS.mainColor};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${(props) => (props.state ? "white" : COLORS.mainColor)};
+  background-color: ${(props) => (props.state ? COLORS.mainColor : "none")};
+  font-size: 15px;
+  font-weight: ${(props) => (props.state ? "600" : "500")};
+`;
+
+const SizeBox = styled.div`
+  width: 40vw;
+  display: flex;
+  justify-content: space-between;
 `;
 
 export default Home;
