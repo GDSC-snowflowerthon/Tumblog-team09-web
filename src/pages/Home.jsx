@@ -5,9 +5,9 @@ import Calendar from "../components/Calendar/Calendar";
 import Modal from "../components/Modal/Modal";
 import { useAtom } from "jotai";
 import { modalState } from "../atoms/modalState";
-import Button from "../components/Button";
 import { Icon } from "@iconify/react";
 import COLORS from "../styles/colors";
+import Diary from "../components/Diary";
 
 const Home = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -50,6 +50,18 @@ const Home = () => {
               setSelectedDate={setSelectedDate}
             />
           </CalendarWrapper>
+          <DiaryHeaderBox>
+            <CalendarText>
+              {selectedDate.getMonth() + 1}월 {selectedDate.getDate()}일의 텀블
+            </CalendarText>
+            <Icon
+              style={{ marginTop: "30px", marginLeft: "auto" }}
+              icon="ic:baseline-edit"
+              color="#64a25a"
+            />
+          </DiaryHeaderBox>
+          {/** TODO: date api 연결 */}
+          <Diary />
         </Container>
       </PageContainer>
       {isOpen && (
@@ -239,6 +251,12 @@ const SizeBox = styled.div`
   width: 40vw;
   display: flex;
   justify-content: space-between;
+`;
+
+const DiaryHeaderBox = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
 `;
 
 export default Home;
