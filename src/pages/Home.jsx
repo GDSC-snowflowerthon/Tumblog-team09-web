@@ -2,41 +2,52 @@ import { useState } from "react";
 import { Container, PageContainer } from "../styles/PageLayout";
 import styled from "styled-components";
 import Calendar from "../components/Calendar/Calendar";
+import Modal from "../components/Modal/Modal";
+import { useAtom } from "jotai";
+import { modalState } from "../atoms/modalState";
 
 const Home = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isOpen, setIsOpen] = useAtom(modalState);
 
   return (
-    <PageContainer>
-      <Container style={{ padding: "1.5rem" }}>
-        <ContextBox>
-          <BigText>
-            <b>텀블</b>을 사용해서
-          </BigText>
-          <SmallText>
-            연간 <b>97,000원</b>을 절약할 수 있어요!
-          </SmallText>
-          <SmallText>
-            <b>두 그루의 나무</b>를 심을 수 있어요!
-          </SmallText>
-        </ContextBox>
-        <TreesBox>
-          <TreeSkyBox></TreeSkyBox>
-          <TreeGroundBox></TreeGroundBox>
-        </TreesBox>
+    <>
+      <PageContainer>
+        <Container style={{ padding: "1.5rem" }}>
+          <ContextBox>
+            <BigText>
+              <b>텀블</b>을 사용해서
+            </BigText>
+            <SmallText>
+              연간 <b>97,000원</b>을 절약할 수 있어요!
+            </SmallText>
+            <SmallText>
+              <b>두 그루의 나무</b>를 심을 수 있어요!
+            </SmallText>
+          </ContextBox>
+          <TreesBox>
+            <TreeSkyBox></TreeSkyBox>
+            <TreeGroundBox></TreeGroundBox>
+          </TreesBox>
 
-        <CalendarText>텀블로그</CalendarText>
-        <CalendarWrapper>
-          <Calendar
-            currentMonth={currentMonth}
-            setCurrentMonth={setCurrentMonth}
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-          />
-        </CalendarWrapper>
-      </Container>
-    </PageContainer>
+          <CalendarText>텀블로그</CalendarText>
+          <CalendarWrapper>
+            <Calendar
+              currentMonth={currentMonth}
+              setCurrentMonth={setCurrentMonth}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+            />
+          </CalendarWrapper>
+        </Container>
+      </PageContainer>
+      {isOpen && (
+        <>
+          <Modal isOpen={isOpen} setIsOpen={setIsOpen}></Modal>
+        </>
+      )}
+    </>
   );
 };
 

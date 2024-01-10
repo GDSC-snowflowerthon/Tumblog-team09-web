@@ -10,6 +10,8 @@ import {
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import COLORS from "../../styles/colors";
+import { useAtom } from "jotai";
+import { modalState } from "../../atoms/modalState";
 
 const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
   const monthStart = startOfMonth(currentMonth);
@@ -20,6 +22,7 @@ const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
   const [selectday, setSelectday] = useState(new Date());
   const [state, setState] = useState(false);
   const statedayRef = useRef("");
+  const [isOpen, setIsOpen] = useAtom(modalState);
 
   const rows = [];
   let days = [];
@@ -53,6 +56,7 @@ const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
                     }`}
             onClick={() => {
               onDateClick(cloneDay);
+              setIsOpen(!isOpen);
             }}
           >
             <Square>
