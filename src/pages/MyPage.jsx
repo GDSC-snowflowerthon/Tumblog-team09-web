@@ -151,6 +151,13 @@ const LogOutArrow = styled.div`
   align-items: center;
 `;
 
-const CopyRightBox = styled.div``;
+const CopyRightBox = styled.div`
+  color: var(--gray-400, #9e9e9e);
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto auto;
+`;
 
 export default MyPage;
