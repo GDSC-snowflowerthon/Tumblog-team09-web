@@ -3,6 +3,8 @@ import { Container, PageContainer } from "../styles/PageLayout";
 import styled from "styled-components";
 import LogoutIcon from "../images/mypage/logout.svg";
 import NextIcon from "../images/mypage/next.svg";
+import COLORS from "../styles/colors";
+import { Icon } from "@iconify/react";
 
 const MyPage = () => {
   return (
@@ -10,9 +12,16 @@ const MyPage = () => {
       <Container style={{ padding: "1rem" }}>
         <ProfileBox>
           <ProfileImgBox></ProfileImgBox>
-          <ImgEditBox></ImgEditBox>
+          <ImgEditBox>
+            <Icon icon="solar:camera-bold" width="24" color="white" />
+          </ImgEditBox>
           <NickNameBox>
-            <NickNameEdit></NickNameEdit>
+            <NickNameTxt>
+              <b>닉네임</b> 님
+            </NickNameTxt>
+            <NickNameEdit>
+              <Icon icon="ic:baseline-edit" color="##7FBB76" />
+            </NickNameEdit>
           </NickNameBox>
         </ProfileBox>
         <MyTumbleBox>
@@ -51,19 +60,58 @@ const MyPage = () => {
           </LogOutArrow>
         </LogOutBox>
         <CopyRightBox>이용약관 | 개인정보처리방침</CopyRightBox>
-        <CopyRightBox>Copyright ⓒ Tumblog All rights reserved.</CopyRightBox>
+        <CopyRightBox style={{ paddingBottom: "10px" }}>
+          Copyright ⓒ Tumblog All rights reserved.
+        </CopyRightBox>
       </Container>
     </PageContainer>
   );
 };
 
-const ProfileBox = styled.div``;
+const ProfileBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 1rem auto 2rem;
+`;
 
-const ProfileImgBox = styled.div``;
+const ProfileImgBox = styled.div`
+  width: 148px;
+  height: 148px;
+  border: 4px solid ${COLORS.mainColor};
+  border-radius: 50%;
+`;
 
-const ImgEditBox = styled.div``;
-const NickNameBox = styled.div``;
-const NickNameEdit = styled.div``;
+const ImgEditBox = styled.div`
+  background-color: ${COLORS.mainColor};
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -2.5rem;
+  margin-left: auto;
+`;
+const NickNameBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  border-bottom: 1px solid #bfcebd;
+  padding-bottom: 5px;
+`;
+
+const NickNameTxt = styled.div`
+  font-size: 20px;
+  font-weight: 500;
+`;
+
+const NickNameEdit = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+`;
 
 const MyTumbleBox = styled.div`
   display: flex;
