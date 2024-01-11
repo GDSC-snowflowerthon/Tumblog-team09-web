@@ -15,10 +15,24 @@ const Home = () => {
   const [isOpen, setIsOpen] = useAtom(modalState);
   const [isSecondOpen, setIsSecond] = useState(false);
   const [sizeState, setSizeState] = useState([true, false, false]);
+  const [imgSrc, setImgSrc] = useState(null);
   const size = ["S", "M", "L"];
 
   const handleEnroll = () => {
     // TODO: 등록 api 연결하기
+  };
+
+  const onUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setImgSrc(reader.result || null);
+        resolve();
+      };
+    });
   };
 
   return (
@@ -79,9 +93,36 @@ const Home = () => {
               <br />
               자동으로 입력해요!
             </ExplainBox>
-            <ImageUploadBox>
-              <Icon icon="solar:camera-bold" width="28" />
-            </ImageUploadBox>
+            {imgSrc !== null ? (
+              <>
+                <ImageUploadBox>
+                  <img width={"100%"} src={imgSrc} alt="영수증 사진" />
+                </ImageUploadBox>
+                <CustomFileInput>
+                  <label for="file">재선택</label>
+                  <input
+                    accept="image/*"
+                    multiple
+                    type="file"
+                    onChange={(e) => onUpload(e)}
+                    id="file"
+                  />
+                </CustomFileInput>
+              </>
+            ) : (
+              <ImageUploadBox>
+                <label for="file">
+                  <Icon icon="solar:camera-bold" width="28" />
+                </label>
+                <input
+                  accept="image/*"
+                  multiple
+                  type="file"
+                  onChange={(e) => onUpload(e)}
+                  id="file"
+                />
+              </ImageUploadBox>
+            )}
           </Modal>
         </>
       )}
@@ -206,6 +247,15 @@ const ImageUploadBox = styled.div`
   justify-content: center;
   align-items: center;
   margin: 1rem auto;
+  input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+  }
+  overflow: hidden;
 `;
 
 const InfoBox = styled.div`
@@ -257,6 +307,28 @@ const DiaryHeaderBox = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
+`;
+
+const CustomFileInput = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  color: ${COLORS.mainColor};
+  margin-bottom: 10px;
+  margin-top: -10px;
+  input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+  }
+
+  label {
+    text-decoration: underline;
+    text-underline-position: under;
+  }
 `;
 
 export default Home;

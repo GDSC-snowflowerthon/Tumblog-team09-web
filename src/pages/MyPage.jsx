@@ -20,7 +20,7 @@ const MyPage = () => {
               <b>닉네임</b> 님
             </NickNameTxt>
             <NickNameEdit>
-              <Icon icon="ic:baseline-edit" color="##7FBB76" />
+              <Icon icon="ic:baseline-edit" color="#7FBB76" />
             </NickNameEdit>
           </NickNameBox>
         </ProfileBox>
