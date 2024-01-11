@@ -9,7 +9,7 @@ import { Icon } from "@iconify/react";
 const MyPage = () => {
   return (
     <PageContainer style={{ backgroundColor: "#f5f5f5" }}>
-      <Container style={{ padding: "1rem" }}>
+      <Container style={{ padding: "1rem", height: "90vh" }}>
         <ProfileBox>
           <ProfileImgBox></ProfileImgBox>
           <ImgEditBox>
@@ -50,19 +50,23 @@ const MyPage = () => {
             </InfoWrapper>
           </MTInfoBox>
         </MyTumbleBox>
-        <LogOutBox>
-          <LogOutIconBox>
-            <img src={LogoutIcon} alt="logout" />
-          </LogOutIconBox>
-          <LogOutTxt>로그아웃</LogOutTxt>
-          <LogOutArrow>
-            <img src={NextIcon} alt="next" />
-          </LogOutArrow>
-        </LogOutBox>
-        <CopyRightBox>이용약관 | 개인정보처리방침</CopyRightBox>
-        <CopyRightBox style={{ paddingBottom: "10px" }}>
-          Copyright ⓒ Tumblog All rights reserved.
-        </CopyRightBox>
+        <MarginAutoBox>
+          <LogOutBox>
+            <LogOutIconBox>
+              <img src={LogoutIcon} alt="logout" />
+            </LogOutIconBox>
+            <LogOutTxt>로그아웃</LogOutTxt>
+            <LogOutArrow>
+              <img src={NextIcon} alt="next" />
+            </LogOutArrow>
+          </LogOutBox>
+          <CopyRightBox style={{ marginTop: "1.5rem" }}>
+            이용약관 | 개인정보처리방침
+          </CopyRightBox>
+          <CopyRightBox style={{ paddingBottom: "10px" }}>
+            Copyright ⓒ Tumblog All rights reserved.
+          </CopyRightBox>
+        </MarginAutoBox>
       </Container>
     </PageContainer>
   );
@@ -117,7 +121,7 @@ const MyTumbleBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 auto;
+  margin: 1.5rem auto 0;
 `;
 
 const TitleBox = styled.div`
@@ -171,7 +175,7 @@ const MTRegularTxt = styled.div`
 `;
 
 const LogOutBox = styled.div`
-  margin: 10px auto;
+  margin: auto;
   height: 5rem;
   width: 90vw;
   display: flex;
@@ -205,7 +209,11 @@ const CopyRightBox = styled.div`
   font-weight: 500;
   display: flex;
   justify-content: center;
-  margin: 0 auto auto;
+  margin: 0 auto;
+`;
+
+const MarginAutoBox = styled.div`
+  margin: auto auto 0;
 `;
 
 export default MyPage;
