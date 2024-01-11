@@ -1,6 +1,8 @@
 import React from "react";
 import { Container, PageContainer } from "../styles/PageLayout";
 import styled from "styled-components";
+import LogoutIcon from "../images/mypage/logout.svg";
+import NextIcon from "../images/mypage/next.svg";
 
 const MyPage = () => {
   return (
@@ -40,9 +42,13 @@ const MyPage = () => {
           </MTInfoBox>
         </MyTumbleBox>
         <LogOutBox>
-          <LogOutIconBox></LogOutIconBox>
+          <LogOutIconBox>
+            <img src={LogoutIcon} alt="logout" />
+          </LogOutIconBox>
           <LogOutTxt>로그아웃</LogOutTxt>
-          <LogOutArrow></LogOutArrow>
+          <LogOutArrow>
+            <img src={NextIcon} alt="next" />
+          </LogOutArrow>
         </LogOutBox>
         <CopyRightBox>이용약관 | 개인정보처리방침</CopyRightBox>
         <CopyRightBox>Copyright ⓒ Tumblog All rights reserved.</CopyRightBox>
@@ -116,12 +122,34 @@ const MTRegularTxt = styled.div`
   margin-top: auto;
 `;
 
+const LogOutBox = styled.div`
+  margin: 10px auto;
+  height: 5rem;
+  width: 90vw;
+  display: flex;
+  background-color: white;
+  border-radius: 12px;
+  align-items: center;
+`;
 
-const LogOutIconBox = styled.div``;
+const LogOutIconBox = styled.div`
+  margin-left: 2rem;
+`;
 
-const LogOutTxt = styled.div``;
+const LogOutTxt = styled.div`
+  font-size: 16px;
+  font-weight: 500;
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+`;
 
-const LogOutArrow = styled.div``;
+const LogOutArrow = styled.div`
+  margin-left: auto;
+  padding-right: 2rem;
+  display: flex;
+  align-items: center;
+`;
 
 const CopyRightBox = styled.div``;
 
