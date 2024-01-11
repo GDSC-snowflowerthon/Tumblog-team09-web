@@ -5,7 +5,7 @@ import styled from "styled-components";
 const MyPage = () => {
   return (
     <PageContainer style={{ backgroundColor: "#f5f5f5" }}>
-      <Container style={{ padding: "2rem" }}>
+      <Container style={{ padding: "1rem" }}>
         <ProfileBox>
           <ProfileImgBox></ProfileImgBox>
           <ImgEditBox></ImgEditBox>
@@ -14,16 +14,16 @@ const MyPage = () => {
           </NickNameBox>
         </ProfileBox>
         <MyTumbleBox>
-          <TitleBox></TitleBox>
+          <TitleBox>이번달 나의 텀블</TitleBox>
           <MTInfoBox>
-            <InfoWrapper>
+            <InfoWrapper style={{ borderRight: "1px solid #BFCEBD" }}>
               <MTSmallTitle>텀블 사용량</MTSmallTitle>
               <MTDetailBox>
                 <MTBoldTxt>20</MTBoldTxt>
                 <MTRegularTxt>회</MTRegularTxt>
               </MTDetailBox>
             </InfoWrapper>
-            <InfoWrapper>
+            <InfoWrapper style={{ borderRight: "1px solid #BFCEBD" }}>
               <MTSmallTitle>절약한 금액</MTSmallTitle>
               <MTDetailBox>
                 <MTBoldTxt>8000</MTBoldTxt>
@@ -44,7 +44,6 @@ const MyPage = () => {
           <LogOutTxt>로그아웃</LogOutTxt>
           <LogOutArrow></LogOutArrow>
         </LogOutBox>
-
         <CopyRightBox>이용약관 | 개인정보처리방침</CopyRightBox>
         <CopyRightBox>Copyright ⓒ Tumblog All rights reserved.</CopyRightBox>
       </Container>
@@ -60,23 +59,63 @@ const ImgEditBox = styled.div``;
 const NickNameBox = styled.div``;
 const NickNameEdit = styled.div``;
 
-const MyTumbleBox = styled.div``;
+const MyTumbleBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+`;
 
-const TitleBox = styled.div``;
+const TitleBox = styled.div`
+  font-size: 16px;
+  font-weight: bold;
+`;
 
-const MTInfoBox = styled.div``;
+const MTInfoBox = styled.div`
+  margin: 10px auto;
+  height: 8rem;
+  width: 90vw;
+  display: flex;
+  background-color: white;
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+`;
 
-const InfoWrapper = styled.div``;
+const InfoWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 60px;
+  padding: 0 3vw;
+`;
 
-const MTSmallTitle = styled.div``;
+const MTSmallTitle = styled.div`
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+`;
 
-const MTDetailBox = styled.div``;
+const MTDetailBox = styled.div`
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+`;
 
-const MTBoldTxt = styled.div``;
+const MTBoldTxt = styled.div`
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+`;
 
-const MTRegularTxt = styled.div``;
+const MTRegularTxt = styled.div`
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: auto;
+`;
 
-const LogOutBox = styled.div``;
 
 const LogOutIconBox = styled.div``;
 
