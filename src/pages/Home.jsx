@@ -11,6 +11,11 @@ import axios from "../api/axios";
 import Spinner from "../images/spinner.svg";
 import Button from "../components/Button";
 import { DateConverter } from "../components/utils/DateConverter";
+import first from "../images/level/1.svg";
+import second from "../images/level/2.svg";
+import third from "../images/level/3.svg";
+import fourth from "../images/level/4.svg";
+import fifth from "../images/level/5.svg";
 
 const Home = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -154,6 +159,32 @@ const Home = () => {
     return isDateInData;
   };
 
+  const ReturnLevelImg = (level) => {
+    let result;
+
+    switch (level) {
+      case 1:
+        result = (
+          <img src={first} alt="level 1" style={{ marginTop: "4rem" }} />
+        );
+        break;
+      case 2:
+        result = <img src={second} alt="level" />;
+        break;
+      case 3:
+        result = <img src={third} alt="level" />;
+        break;
+      case 4:
+        result = <img src={fourth} alt="level" />;
+        break;
+      case 5:
+        result = <img src={fifth} alt="level" />;
+        break;
+    }
+
+    return result;
+  };
+
   return (
     <>
       <PageContainer>
@@ -171,6 +202,7 @@ const Home = () => {
           </ContextBox>
           <TreesBox>
             <TreeSkyBox></TreeSkyBox>
+            <LevelBox>{ReturnLevelImg(calendarData.Level)}</LevelBox>
             <TreeGroundBox></TreeGroundBox>
           </TreesBox>
 
@@ -350,6 +382,7 @@ const TreesBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   margin: auto;
 `;
 
@@ -363,9 +396,12 @@ const TreeSkyBox = styled.div`
 const TreeGroundBox = styled.div`
   width: 90vw;
   height: 3rem;
-
   border-radius: 0px 0px 10px 10px;
   background: #8d6b42;
+`;
+
+const LevelBox = styled.div`
+  position: absolute;
 `;
 
 const CalendarWrapper = styled.div`
