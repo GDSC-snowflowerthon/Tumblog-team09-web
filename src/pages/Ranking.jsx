@@ -36,7 +36,7 @@ const Ranking = () => {
             <MedalIcon>
               <img src={FirstIcon} alt="first medal" />
             </MedalIcon>
-            <ProfileBox></ProfileBox>
+            <ProfileBox style={{ backgroundColor: "#FAD989" }}></ProfileBox>
             <UserBox>
               <NickName>박텀블</NickName>
               <UserXpNum>3,435</UserXpNum>
@@ -46,7 +46,7 @@ const Ranking = () => {
             <MedalIcon>
               <img src={SecondIcon} alt="second medal" />
             </MedalIcon>
-            <ProfileBox></ProfileBox>
+            <ProfileBox style={{ backgroundColor: "#FFAF51" }}></ProfileBox>
             <UserBox>
               <NickName>박텀블</NickName>
               <UserXpNum>3,435</UserXpNum>
@@ -56,7 +56,7 @@ const Ranking = () => {
             <MedalIcon>
               <img src={ThirdICon} alt="third medal" />
             </MedalIcon>
-            <ProfileBox></ProfileBox>
+            <ProfileBox style={{ backgroundColor: "#FBF198" }}></ProfileBox>
             <UserBox>
               <NickName>박텀블</NickName>
               <UserXpNum>3,435</UserXpNum>
