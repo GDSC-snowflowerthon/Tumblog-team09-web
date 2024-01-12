@@ -75,7 +75,7 @@ const MyPage = () => {
               <MTSmallTitle>절약한 금액</MTSmallTitle>
               <MTDetailBox>
                 <MTBoldTxt>{userData.savedPrice}</MTBoldTxt>
-                <MTRegularTxt>회</MTRegularTxt>
+                <MTRegularTxt>원</MTRegularTxt>
               </MTDetailBox>
             </InfoWrapper>
             <InfoWrapper>
