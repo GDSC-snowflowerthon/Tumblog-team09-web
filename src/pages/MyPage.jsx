@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, PageContainer } from "../styles/PageLayout";
 import styled from "styled-components";
 import LogoutIcon from "../images/mypage/logout.svg";
 import NextIcon from "../images/mypage/next.svg";
 import COLORS from "../styles/colors";
 import { Icon } from "@iconify/react";
+import axios from "../api/axios";
 
 const MyPage = () => {
+  const [userData, setUserData] = useState({
+    nickname: "",
+    numberOfTumbles: 0,
+    savedPrice: 0,
+    savedCarbon: 0,
+  });
+  const [isEdit, setIsEdit] = useState(false);
+  const [changeName, setChangeName] = useState();
+
+  useEffect(() => {
+    axios.get(`users/mypage/1`).then((res) => {
+      setUserData(res.data.result);
+    });
+  }, [changeName]);
+
+  const hanldeOnChangeName = (e) => {
+    setChangeName(e.target.value);
+  };
+
   return (
     <PageContainer style={{ backgroundColor: "#f5f5f5" }}>
       <Container style={{ padding: "1rem", height: "90vh" }}>
@@ -16,10 +36,27 @@ const MyPage = () => {
             <Icon icon="solar:camera-bold" width="24" color="white" />
           </ImgEditBox>
           <NickNameBox>
-            <NickNameTxt>
-              <b>닉네임</b> 님
-            </NickNameTxt>
-            <NickNameEdit>
+            {isEdit ? (
+              <NickNameInput onChange={hanldeOnChangeName} />
+            ) : (
+              <NickNameTxt>
+                <b>{userData.nickname}</b> 님
+              </NickNameTxt>
+            )}
+            <NickNameEdit
+              onClick={() => {
+                if (isEdit) {
+                  setIsEdit(!isEdit);
+                  axios.patch("users/nickname", {
+                    userId: 1,
+                    nickname: changeName,
+                  });
+                  window.location.reload();
+                } else {
+                  setIsEdit(!isEdit);
+                }
+              }}
+            >
               <Icon icon="ic:baseline-edit" color="#7FBB76" />
             </NickNameEdit>
           </NickNameBox>
@@ -30,21 +67,21 @@ const MyPage = () => {
             <InfoWrapper style={{ borderRight: "1px solid #BFCEBD" }}>
               <MTSmallTitle>텀블 사용량</MTSmallTitle>
               <MTDetailBox>
-                <MTBoldTxt>20</MTBoldTxt>
+                <MTBoldTxt>{userData.numberOfTumbles}</MTBoldTxt>
                 <MTRegularTxt>회</MTRegularTxt>
               </MTDetailBox>
             </InfoWrapper>
             <InfoWrapper style={{ borderRight: "1px solid #BFCEBD" }}>
               <MTSmallTitle>절약한 금액</MTSmallTitle>
               <MTDetailBox>
-                <MTBoldTxt>8000</MTBoldTxt>
+                <MTBoldTxt>{userData.savedPrice}</MTBoldTxt>
                 <MTRegularTxt>회</MTRegularTxt>
               </MTDetailBox>
             </InfoWrapper>
             <InfoWrapper>
               <MTSmallTitle>절약한 탄소</MTSmallTitle>
               <MTDetailBox>
-                <MTBoldTxt>1040</MTBoldTxt>
+                <MTBoldTxt>{userData.numberOfTumbles}</MTBoldTxt>
                 <MTRegularTxt>g</MTRegularTxt>
               </MTDetailBox>
             </InfoWrapper>
@@ -109,6 +146,19 @@ const NickNameBox = styled.div`
 const NickNameTxt = styled.div`
   font-size: 20px;
   font-weight: 500;
+`;
+
+const NickNameInput = styled.input`
+  border: none;
+  width: 30vw;
+  font-size: 20px;
+  background-color: #f5f5f5;
+
+  :focus {
+    outline: none;
+    border: none;
+    background-color: #f5f5f5;
+  }
 `;
 
 const NickNameEdit = styled.div`
