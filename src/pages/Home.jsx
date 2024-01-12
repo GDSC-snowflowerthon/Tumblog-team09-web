@@ -10,6 +10,7 @@ import Diary from "../components/Diary";
 import axios from "../api/axios";
 import Spinner from "../images/spinner.svg";
 import Button from "../components/Button";
+import { DateConverter } from "../components/utils/DateConverter";
 
 const Home = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -19,6 +20,7 @@ const Home = () => {
   const [sizeState, setSizeState] = useState([true, false, false]);
   const [imgSrc, setImgSrc] = useState(null);
   const [file, setFile] = useState();
+  const [loading, setLoading] = useState(false);
   const [calendarData, setCalendarData] = useState({
     Level: 0,
     annualSavedCarbon: 0,
@@ -34,17 +36,15 @@ const Home = () => {
     orderedAt: "",
   });
 
-  const loading = useRef();
-
   useEffect(() => {
     axios.get("users/home/1").then((res) => {
-      console.log(res.data.result);
       setCalendarData(res.data.result);
     });
   }, []);
 
-  const handleEnroll = async () => {
-    loading.current = true;
+  const handleEnroll = async (e) => {
+    e.stopPropagation();
+    setLoading(true);
     const formData = new FormData();
     formData.append("multipartFile", file);
     try {
@@ -61,7 +61,7 @@ const Home = () => {
           );
           setSizeState(newSizeState);
         });
-      loading.current = false;
+      setLoading(false);
       setIsSecond(true);
       return true;
     } catch (err) {
@@ -77,6 +77,7 @@ const Home = () => {
         discountPrice: receiptData.discountPrice,
         size: receiptData.size,
       });
+      setIsOpen(false);
     } catch (err) {
       console.error(err);
     }
@@ -181,8 +182,10 @@ const Home = () => {
                   자동으로 입력해요!
                 </ExplainBox>
                 {imgSrc !== null ? (
-                  loading.current ? (
-                    <img src={Spinner} alt="spinner" />
+                  loading ? (
+                    <ImageUploadBox style={{ backgroundColor: "transparent" }}>
+                      <img src={Spinner} alt="spinner" />
+                    </ImageUploadBox>
                   ) : (
                     <>
                       <ImageUploadBox>
@@ -215,7 +218,7 @@ const Home = () => {
                   </ImageUploadBox>
                 )}
               </ContentBox>
-              <ButtonBox onClick={handleEnroll}>
+              <ButtonBox onClick={(e) => handleEnroll(e)}>
                 <Button text={"다음"}></Button>
               </ButtonBox>
             </ModalContent>
