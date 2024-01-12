@@ -87,6 +87,8 @@ const Home = () => {
   };
 
   const TumblogEnroll = async () => {
+    setImgSrc(null);
+    setFile(null);
     try {
       await axios.post("/tumbles/1", {
         createdAt: receiptData.orderedAt,
@@ -95,6 +97,7 @@ const Home = () => {
         size: receiptData.size,
       });
       setIsOpen(false);
+      alert("등록되었습니다.");
     } catch (err) {
       console.error(err);
     }
@@ -255,7 +258,6 @@ const Home = () => {
               <ButtonBox
                 onClick={(e) => {
                   handleEnroll(e);
-                  alert("등록되었습니다.");
                 }}
               >
                 <Button text={"다음"}></Button>
