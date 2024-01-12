@@ -64,7 +64,9 @@ const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
                     }`}
             onClick={() => {
               onDateClick(cloneDay);
-              setIsOpen(!isOpen);
+              if (!SetColorDate(calDate)) {
+                setIsOpen(!isOpen);
+              }
             }}
           >
             <Square>
