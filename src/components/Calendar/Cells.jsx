@@ -32,7 +32,6 @@ const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
     axios
       .get(`users/home/1/2024/${currentMonth.getMonth() + 1}`)
       .then((res) => {
-        console.log(res.data.result.monthlyTumbles);
         setData(res.data.result.monthlyTumbles);
       });
   }, []);

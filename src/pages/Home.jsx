@@ -196,10 +196,10 @@ const Home = () => {
               <b>텀블</b>을 사용해서
             </BigText>
             <SmallText>
-              연간 <b>97,000원</b>을 절약할 수 있어요!
+              연간 <b>{calendarData.annualSavedMoney}원</b>을 절약할 수 있어요!
             </SmallText>
             <SmallText>
-              <b>두 그루의 나무</b>를 심을 수 있어요!
+              <b>{calendarData.carbonMessage}</b>를 심을 수 있어요!
             </SmallText>
           </ContextBox>
           <TreesBox>
