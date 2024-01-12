@@ -31,7 +31,7 @@ const MyPage = () => {
     <PageContainer style={{ backgroundColor: "#f5f5f5" }}>
       <Container style={{ padding: "1rem", height: "90vh" }}>
         <ProfileBox>
-          <ProfileImgBox></ProfileImgBox>
+          <ProfileImgBox style={{ backgroundColor: "#FBF198" }}></ProfileImgBox>
           <ImgEditBox>
             <Icon icon="solar:camera-bold" width="24" color="white" />
           </ImgEditBox>
