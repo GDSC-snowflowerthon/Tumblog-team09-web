@@ -10,9 +10,11 @@ import { useEffect, useState } from "react";
 
 const Ranking = () => {
   const [data, setData] = useState();
+  const [percent, setPercent] = useState();
   useEffect(() => {
     axios.get("users/rank/1").then((res) => {
       setData(res.data);
+      setPercent((res.data.experiencePoint / 5000) * 100);
     });
   }, []);
 
@@ -24,7 +26,9 @@ const Ranking = () => {
             현재 나의 <b>텀블 지수</b>는
           </PercentTxt>
           <PercentGreen>{data?.rank}위</PercentGreen>
-          <PercentBar></PercentBar>
+          <PercentBar>
+            <PercentGreenBar percent={percent} />
+          </PercentBar>
           <PercentNum>({data?.experiencePoint}/5000)</PercentNum>
         </PercentBox>
         <RankingTitle>
@@ -109,6 +113,13 @@ const PercentBar = styled.div`
   display: flex;
   margin: 25px auto 0;
   justify-content: center;
+`;
+
+const PercentGreenBar = styled.div`
+  height: 6px;
+  width: ${(props) => props.percent + "vw"};
+  background-color: ${COLORS.mainColor};
+  margin-right: auto;
 `;
 
 const PercentNum = styled.div`
