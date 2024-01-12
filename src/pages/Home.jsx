@@ -94,15 +94,17 @@ const Home = () => {
   const TumblogEnroll = async () => {
     setImgSrc(null);
     setFile(null);
+    setIsOpen(false);
     try {
-      await axios.post("/tumbles/1", {
+      await axios.post("/tumbles", {
         createdAt: receiptData.orderedAt,
         menu: receiptData.menu,
         discountPrice: receiptData.discountPrice,
         size: receiptData.size,
+        userId: 1,
       });
-      setIsOpen(false);
       alert("등록되었습니다.");
+      window.location.reload();
     } catch (err) {
       console.error(err);
     }
