@@ -14,11 +14,18 @@ const MyPage = () => {
     savedPrice: 0,
     savedCarbon: 0,
   });
+  const [isEdit, setIsEdit] = useState(false);
+  const [changeName, setChangeName] = useState();
+
   useEffect(() => {
     axios.get(`users/mypage/1`).then((res) => {
       setUserData(res.data.result);
     });
-  }, []);
+  }, [changeName]);
+
+  const hanldeOnChangeName = (e) => {
+    setChangeName(e.target.value);
+  };
 
   return (
     <PageContainer style={{ backgroundColor: "#f5f5f5" }}>
@@ -29,10 +36,27 @@ const MyPage = () => {
             <Icon icon="solar:camera-bold" width="24" color="white" />
           </ImgEditBox>
           <NickNameBox>
-            <NickNameTxt>
-              <b>{userData.nickname}</b> 님
-            </NickNameTxt>
-            <NickNameEdit>
+            {isEdit ? (
+              <NickNameInput onChange={hanldeOnChangeName} />
+            ) : (
+              <NickNameTxt>
+                <b>{userData.nickname}</b> 님
+              </NickNameTxt>
+            )}
+            <NickNameEdit
+              onClick={() => {
+                if (isEdit) {
+                  setIsEdit(!isEdit);
+                  axios.patch("users/nickname", {
+                    userId: 1,
+                    nickname: changeName,
+                  });
+                  window.location.reload();
+                } else {
+                  setIsEdit(!isEdit);
+                }
+              }}
+            >
               <Icon icon="ic:baseline-edit" color="#7FBB76" />
             </NickNameEdit>
           </NickNameBox>
@@ -122,6 +146,19 @@ const NickNameBox = styled.div`
 const NickNameTxt = styled.div`
   font-size: 20px;
   font-weight: 500;
+`;
+
+const NickNameInput = styled.input`
+  border: none;
+  width: 30vw;
+  font-size: 20px;
+  background-color: #f5f5f5;
+
+  :focus {
+    outline: none;
+    border: none;
+    background-color: #f5f5f5;
+  }
 `;
 
 const NickNameEdit = styled.div`
