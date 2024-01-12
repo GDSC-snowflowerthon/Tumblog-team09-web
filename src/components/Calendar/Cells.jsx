@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import COLORS from "../../styles/colors";
 import { useAtom } from "jotai";
 import { modalState } from "../../atoms/modalState";
-
+import axios from "../../api/axios";
 const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -35,12 +35,36 @@ const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
     });
   }, [schedule]);
 
+  useEffect(() => {
+    axios.get("users/home/1").then((res) => {
+      console.log(res.data.result.monthlyTumbles);
+      setData(res.data.result.monthlyTumbles);
+    });
+  }, []);
+
+  const DateConverter = (dateString) => {
+    const originalDate = new Date(dateString);
+    const formattedDate = `${originalDate.getFullYear()}-${(
+      originalDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}-${originalDate.getDate().toString().padStart(2, "0")}`;
+
+    return formattedDate;
+  };
+
+  const SetColorDate = (targetDate) => {
+    const isDateInData = data.some((item) => item.createdDate === targetDate);
+    return isDateInData;
+  };
+
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formatDate = format(day, "d");
       const cloneDay = day;
       statedayRef.current = day.toDateString();
       const string = cloneDay.toDateString();
+      const calDate = DateConverter(string);
       days.push(
         <Container>
           <CellBox
@@ -66,7 +90,7 @@ const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
                     ? "text not-valid"
                     : ""
                 }`}
-                use={true}
+                use={SetColorDate(calDate)}
               />
             </Square>
             <span
