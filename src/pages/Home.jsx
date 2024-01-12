@@ -35,14 +35,29 @@ const Home = () => {
     size: "S",
     orderedAt: "",
   });
+  const [tumbleData, setTumbleData] = useState({
+    menu: "",
+    discountPrice: 0,
+    size: "",
+  });
 
   useEffect(() => {
     axios
-      .get(`users/home/1/2024/${currentMonth.getMonth() + 1}`)
+      .get(
+        `users/home/1/${currentMonth.getFullYear()}/${
+          currentMonth.getMonth() + 1
+        }`
+      )
       .then((res) => {
         setCalendarData(res.data.result);
       });
   }, []);
+
+  useEffect(() => {
+    axios.get(`tumbles/1/${DateConverter(selectedDate)}`).then((res) => {
+      setTumbleData(res.data.result);
+    });
+  }, [selectedDate]);
 
   const handleEnroll = async (e) => {
     e.stopPropagation();
@@ -129,6 +144,13 @@ const Home = () => {
     });
   };
 
+  const SetColorDate = (targetDate) => {
+    const isDateInData = calendarData.monthlyTumbles.some(
+      (item) => item.createdDate === targetDate
+    );
+    return isDateInData;
+  };
+
   return (
     <>
       <PageContainer>
@@ -158,18 +180,28 @@ const Home = () => {
               setSelectedDate={setSelectedDate}
             />
           </CalendarWrapper>
-          <DiaryHeaderBox>
-            <CalendarText>
-              {selectedDate.getMonth() + 1}월 {selectedDate.getDate()}일의 텀블
-            </CalendarText>
-            <Icon
-              style={{ marginTop: "30px", marginLeft: "auto" }}
-              icon="ic:baseline-edit"
-              color="#64a25a"
-            />
-          </DiaryHeaderBox>
-          {/** TODO: date api 연결 */}
-          <Diary />
+          {SetColorDate(DateConverter(selectedDate)) ? (
+            <>
+              <DiaryHeaderBox>
+                <CalendarText>
+                  {selectedDate.getMonth() + 1}월 {selectedDate.getDate()}일의
+                  텀블
+                </CalendarText>
+                <Icon
+                  style={{ marginTop: "30px", marginLeft: "auto" }}
+                  icon="ic:baseline-edit"
+                  color="#64a25a"
+                />
+              </DiaryHeaderBox>
+              <Diary
+                menu={tumbleData.menu}
+                discountPrice={tumbleData.discountPrice}
+                Tsize={tumbleData.size}
+              />
+            </>
+          ) : (
+            ""
+          )}
         </Container>
       </PageContainer>
       {isOpen && (

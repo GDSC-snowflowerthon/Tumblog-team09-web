@@ -2,28 +2,26 @@ import styled from "styled-components";
 import COLORS from "../styles/colors";
 import { useState } from "react";
 
-const Diary = ({ date }) => {
-  const [sizeState, setSizeState] = useState([true, false, false]);
-
+const Diary = ({ menu, Tsize, discountPrice }) => {
   const size = ["S", "M", "L"];
 
   return (
     <DiaryWrapper>
       <Box>
         <InfoTitleBox>메뉴</InfoTitleBox>
-        <InfoDetailBox>자바칩 프라푸치노</InfoDetailBox>
+        <InfoDetailBox>{menu}</InfoDetailBox>
       </Box>
       <Box>
         <InfoTitleBox>사이즈</InfoTitleBox>
         <SizeBox>
           {size.map((el, idx) => {
-            return <SizeBtn state={sizeState[idx]}>{el}</SizeBtn>;
+            return <SizeBtn state={size[idx] === Tsize}>{el}</SizeBtn>;
           })}
         </SizeBox>
       </Box>
       <Box>
         <InfoTitleBox>할인 금액</InfoTitleBox>
-        <InfoMoneyBox>원</InfoMoneyBox>
+        <InfoMoneyBox>{discountPrice}원</InfoMoneyBox>
       </Box>
     </DiaryWrapper>
   );
