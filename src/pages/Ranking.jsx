@@ -41,7 +41,7 @@ const Ranking = () => {
             </MedalIcon>
             <ProfileBox style={{ backgroundColor: "#FAD989" }}></ProfileBox>
             <UserBox>
-              <NickName>박텀블</NickName>
+              <NickName>snowflower</NickName>
               <UserXpNum>3,435</UserXpNum>
             </UserBox>
           </RankerBox>
@@ -51,8 +51,8 @@ const Ranking = () => {
             </MedalIcon>
             <ProfileBox style={{ backgroundColor: "#FFAF51" }}></ProfileBox>
             <UserBox>
-              <NickName>박텀블</NickName>
-              <UserXpNum>3,435</UserXpNum>
+              <NickName>GDSC</NickName>
+              <UserXpNum>2,947</UserXpNum>
             </UserBox>
           </RankerBox>
           <RankerBox>
@@ -61,8 +61,8 @@ const Ranking = () => {
             </MedalIcon>
             <ProfileBox style={{ backgroundColor: "#FBF198" }}></ProfileBox>
             <UserBox>
-              <NickName>박텀블</NickName>
-              <UserXpNum>3,435</UserXpNum>
+              <NickName>김텀블</NickName>
+              <UserXpNum>1,582</UserXpNum>
             </UserBox>
           </RankerBox>
         </RankingBox>

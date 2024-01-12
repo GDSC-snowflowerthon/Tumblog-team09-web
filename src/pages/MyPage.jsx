@@ -81,7 +81,7 @@ const MyPage = () => {
             <InfoWrapper>
               <MTSmallTitle>절약한 탄소</MTSmallTitle>
               <MTDetailBox>
-                <MTBoldTxt>{userData.numberOfTumbles}</MTBoldTxt>
+                <MTBoldTxt>{userData.numberOfTumbles * 52} </MTBoldTxt>
                 <MTRegularTxt>g</MTRegularTxt>
               </MTDetailBox>
             </InfoWrapper>
