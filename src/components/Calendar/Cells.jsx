@@ -20,8 +20,6 @@ const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
   const [data, setData] = useState([]);
-  const [selectday, setSelectday] = useState(new Date());
-  const [state, setState] = useState(false);
   const statedayRef = useRef("");
   const [isOpen, setIsOpen] = useAtom(modalState);
 
