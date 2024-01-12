@@ -13,6 +13,7 @@ import COLORS from "../../styles/colors";
 import { useAtom } from "jotai";
 import { modalState } from "../../atoms/modalState";
 import axios from "../../api/axios";
+import { DateConverter } from "../utils/DateConverter";
 const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -30,28 +31,11 @@ const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
   let formatDate = "";
 
   useEffect(() => {
-    schedule.map((el) => {
-      setData((prev) => [el.day, ...prev]);
-    });
-  }, [schedule]);
-
-  useEffect(() => {
     axios.get("users/home/1").then((res) => {
       console.log(res.data.result.monthlyTumbles);
       setData(res.data.result.monthlyTumbles);
     });
   }, []);
-
-  const DateConverter = (dateString) => {
-    const originalDate = new Date(dateString);
-    const formattedDate = `${originalDate.getFullYear()}-${(
-      originalDate.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, "0")}-${originalDate.getDate().toString().padStart(2, "0")}`;
-
-    return formattedDate;
-  };
 
   const SetColorDate = (targetDate) => {
     const isDateInData = data.some((item) => item.createdDate === targetDate);
