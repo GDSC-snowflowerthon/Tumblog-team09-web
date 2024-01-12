@@ -31,10 +31,12 @@ const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
   let formatDate = "";
 
   useEffect(() => {
-    axios.get("users/home/1").then((res) => {
-      console.log(res.data.result.monthlyTumbles);
-      setData(res.data.result.monthlyTumbles);
-    });
+    axios
+      .get(`users/home/1/2024/${currentMonth.getMonth() + 1}`)
+      .then((res) => {
+        console.log(res.data.result.monthlyTumbles);
+        setData(res.data.result.monthlyTumbles);
+      });
   }, []);
 
   const SetColorDate = (targetDate) => {

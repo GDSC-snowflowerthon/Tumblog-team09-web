@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, PageContainer } from "../styles/PageLayout";
 import styled from "styled-components";
 import Calendar from "../components/Calendar/Calendar";
@@ -37,9 +37,11 @@ const Home = () => {
   });
 
   useEffect(() => {
-    axios.get("users/home/1").then((res) => {
-      setCalendarData(res.data.result);
-    });
+    axios
+      .get(`users/home/1/2024/${currentMonth.getMonth() + 1}`)
+      .then((res) => {
+        setCalendarData(res.data.result);
+      });
   }, []);
 
   const handleEnroll = async (e) => {
@@ -218,7 +220,12 @@ const Home = () => {
                   </ImageUploadBox>
                 )}
               </ContentBox>
-              <ButtonBox onClick={(e) => handleEnroll(e)}>
+              <ButtonBox
+                onClick={(e) => {
+                  handleEnroll(e);
+                  alert("등록되었습니다.");
+                }}
+              >
                 <Button text={"다음"}></Button>
               </ButtonBox>
             </ModalContent>
