@@ -5,8 +5,18 @@ import SecondIcon from "../images/Ranking/second.svg";
 import ThirdICon from "../images/Ranking/third.svg";
 import COLORS from "../styles/colors";
 import GraphImg from "../images/Ranking/graph.svg";
+import axios from "../api/axios";
+import { useEffect, useState } from "react";
 
 const Ranking = () => {
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    axios.get("users/rank/1").then((res) => {
+      setData(res.data);
+    });
+  }, []);
+
   return (
     <PageContainer>
       <Container>
@@ -14,9 +24,9 @@ const Ranking = () => {
           <PercentTxt>
             현재 나의 <b>텀블 지수</b>는
           </PercentTxt>
-          <PercentGreen>000위</PercentGreen>
+          <PercentGreen>{data.rank}위</PercentGreen>
           <PercentBar></PercentBar>
-          <PercentNum>(1234/25000)</PercentNum>
+          <PercentNum>({data.experiencePoint}/5000)</PercentNum>
         </PercentBox>
         <RankingTitle>
           이 주의 <b>베스트 텀블러</b>
