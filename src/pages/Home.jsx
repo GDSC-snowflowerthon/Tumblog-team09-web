@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, PageContainer } from "../styles/PageLayout";
 import styled from "styled-components";
 import Calendar from "../components/Calendar/Calendar";
-import Modal from "../components/Modal/Modal";
 import { useAtom } from "jotai";
 import { modalState } from "../atoms/modalState";
 import { Icon } from "@iconify/react";
 import COLORS from "../styles/colors";
 import Diary from "../components/Diary";
+import axios from "../api/axios";
+import Spinner from "../images/spinner.svg";
+import Button from "../components/Button";
+import { DateConverter } from "../components/utils/DateConverter";
 
 const Home = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -16,14 +19,93 @@ const Home = () => {
   const [isSecondOpen, setIsSecond] = useState(false);
   const [sizeState, setSizeState] = useState([true, false, false]);
   const [imgSrc, setImgSrc] = useState(null);
+  const [file, setFile] = useState();
+  const [loading, setLoading] = useState(false);
+  const [calendarData, setCalendarData] = useState({
+    Level: 0,
+    annualSavedCarbon: 0,
+    annualSavedMoney: 0,
+    monthlyTumbles: [],
+  });
   const size = ["S", "M", "L"];
+  const [receiptData, setReceiptData] = useState({
+    menu: "",
+    isDiscount: false,
+    discountPrice: 0,
+    size: "S",
+    orderedAt: "",
+  });
+  const [tumbleData, setTumbleData] = useState({
+    menu: "",
+    discountPrice: 0,
+    size: "",
+  });
 
-  const handleEnroll = () => {
-    // TODO: 등록 api 연결하기
+  useEffect(() => {
+    axios
+      .get(
+        `users/home/1/${currentMonth.getFullYear()}/${
+          currentMonth.getMonth() + 1
+        }`
+      )
+      .then((res) => {
+        setCalendarData(res.data.result);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios.get(`tumbles/1/${DateConverter(selectedDate)}`).then((res) => {
+      setTumbleData(res.data.result);
+    });
+  }, [selectedDate]);
+
+  const handleEnroll = async (e) => {
+    e.stopPropagation();
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("multipartFile", file);
+    try {
+      await axios
+        .post("/image/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          setReceiptData(res.data);
+          const newSizeState = sizeState.map((state, i) =>
+            i === size.indexOf(res.data.size) ? true : false
+          );
+          setSizeState(newSizeState);
+        });
+      setLoading(false);
+      setIsSecond(true);
+      return true;
+    } catch (err) {
+      return "등록 실패";
+    }
+  };
+
+  const TumblogEnroll = async () => {
+    setImgSrc(null);
+    setFile(null);
+    try {
+      await axios.post("/tumbles/1", {
+        createdAt: receiptData.orderedAt,
+        menu: receiptData.menu,
+        discountPrice: receiptData.discountPrice,
+        size: receiptData.size,
+      });
+      setIsOpen(false);
+      alert("등록되었습니다.");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const onUpload = (e) => {
     const file = e.target.files[0];
+    setFile(file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
@@ -33,6 +115,43 @@ const Home = () => {
         resolve();
       };
     });
+  };
+
+  const hanldeOnChangeDate = (e) => {
+    setReceiptData({
+      menu: receiptData.menu,
+      isDiscount: receiptData.isDiscount,
+      discountPrice: receiptData.discountPrice,
+      size: receiptData.size,
+      orderedAt: e.target.value,
+    });
+  };
+
+  const hanldeOnChangeMenu = (e) => {
+    setReceiptData({
+      menu: e.target.value,
+      isDiscount: receiptData.isDiscount,
+      discountPrice: receiptData.discountPrice,
+      size: receiptData.size,
+      orderedAt: receiptData.orderedAt,
+    });
+  };
+
+  const handleOnChangeDiscountPrice = (e) => {
+    setReceiptData({
+      menu: receiptData.menu,
+      isDiscount: receiptData.isDiscount,
+      discountPrice: e.target.value,
+      size: receiptData.size,
+      orderedAt: receiptData.orderedAt,
+    });
+  };
+
+  const SetColorDate = (targetDate) => {
+    const isDateInData = calendarData.monthlyTumbles.some(
+      (item) => item.createdDate === targetDate
+    );
+    return isDateInData;
   };
 
   return (
@@ -64,115 +183,150 @@ const Home = () => {
               setSelectedDate={setSelectedDate}
             />
           </CalendarWrapper>
-          <DiaryHeaderBox>
-            <CalendarText>
-              {selectedDate.getMonth() + 1}월 {selectedDate.getDate()}일의 텀블
-            </CalendarText>
-            <Icon
-              style={{ marginTop: "30px", marginLeft: "auto" }}
-              icon="ic:baseline-edit"
-              color="#64a25a"
-            />
-          </DiaryHeaderBox>
-          {/** TODO: date api 연결 */}
-          <Diary />
+          {SetColorDate(DateConverter(selectedDate)) ? (
+            <>
+              <DiaryHeaderBox>
+                <CalendarText>
+                  {selectedDate.getMonth() + 1}월 {selectedDate.getDate()}일의
+                  텀블
+                </CalendarText>
+                <Icon
+                  style={{ marginTop: "30px", marginLeft: "auto" }}
+                  icon="ic:baseline-edit"
+                  color="#64a25a"
+                />
+              </DiaryHeaderBox>
+              <Diary
+                menu={tumbleData.menu}
+                discountPrice={tumbleData.discountPrice}
+                Tsize={tumbleData.size}
+              />
+            </>
+          ) : (
+            ""
+          )}
         </Container>
       </PageContainer>
       {isOpen && (
         <>
-          <Modal
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            isSecond={isSecondOpen}
-            setIsSecond={setIsSecond}
-            buttonTxt={"다음"}
-          >
-            <TitleBox>영수증 인식</TitleBox>
-            <ExplainBox>
-              촬영한 영수증에서 날짜, 메뉴, 사이즈, 할인금액을 추출해
-              <br />
-              자동으로 입력해요!
-            </ExplainBox>
-            {imgSrc !== null ? (
-              <>
-                <ImageUploadBox>
-                  <img width={"100%"} src={imgSrc} alt="영수증 사진" />
-                </ImageUploadBox>
-                <CustomFileInput>
-                  <label for="file">재선택</label>
-                  <input
-                    accept="image/*"
-                    multiple
-                    type="file"
-                    onChange={(e) => onUpload(e)}
-                    id="file"
-                  />
-                </CustomFileInput>
-              </>
-            ) : (
-              <ImageUploadBox>
-                <label for="file">
-                  <Icon icon="solar:camera-bold" width="28" />
-                </label>
-                <input
-                  accept="image/*"
-                  multiple
-                  type="file"
-                  onChange={(e) => onUpload(e)}
-                  id="file"
-                />
-              </ImageUploadBox>
-            )}
-          </Modal>
+          <ModalOverlay onClick={() => setIsOpen(!isOpen)}>
+            <ModalContent>
+              <ContentBox onClick={(e) => e.stopPropagation()}>
+                <TitleBox>영수증 인식</TitleBox>
+                <ExplainBox>
+                  촬영한 영수증에서 날짜, 메뉴, 사이즈, 할인금액을 추출해
+                  <br />
+                  자동으로 입력해요!
+                </ExplainBox>
+                {imgSrc !== null ? (
+                  loading ? (
+                    <ImageUploadBox style={{ backgroundColor: "transparent" }}>
+                      <img src={Spinner} alt="spinner" />
+                    </ImageUploadBox>
+                  ) : (
+                    <>
+                      <ImageUploadBox>
+                        <img width={"100%"} src={imgSrc} alt="영수증 사진" />
+                      </ImageUploadBox>
+                      <CustomFileInput>
+                        <label for="file">재선택</label>
+                        <input
+                          accept="image/*"
+                          multiple
+                          type="file"
+                          onChange={(e) => onUpload(e)}
+                          id="file"
+                        />
+                      </CustomFileInput>
+                    </>
+                  )
+                ) : (
+                  <ImageUploadBox>
+                    <label for="file">
+                      <Icon icon="solar:camera-bold" width="28" />
+                    </label>
+                    <input
+                      accept="image/*"
+                      multiple
+                      type="file"
+                      onChange={(e) => onUpload(e)}
+                      id="file"
+                    />
+                  </ImageUploadBox>
+                )}
+              </ContentBox>
+              <ButtonBox
+                onClick={(e) => {
+                  handleEnroll(e);
+                }}
+              >
+                <Button text={"다음"}></Button>
+              </ButtonBox>
+            </ModalContent>
+          </ModalOverlay>
         </>
       )}
       {isSecondOpen && (
         <>
-          <Modal
-            isOpen={isSecondOpen}
-            setIsOpen={setIsSecond}
-            buttonTxt={"등록하기"}
-            btnFunc={handleEnroll}
-          >
-            <TitleBox>이 정보가 맞나요?</TitleBox>
-            <ExplainBox>
-              OCR을 사용하여 영수증에서 추출한 정보들을 토대로
-              <br />
-              자동으로 입력한 정보에요!
-            </ExplainBox>
-            <InfoBox style={{ marginTop: "25px" }}>
-              <InfoTitleBox>날짜</InfoTitleBox>
-              <InfoInput type="text"></InfoInput>
-            </InfoBox>
-            <InfoBox>
-              <InfoTitleBox>메뉴</InfoTitleBox>
-              <InfoInput type="text"></InfoInput>
-            </InfoBox>
-            <InfoBox>
-              <InfoTitleBox>사이즈</InfoTitleBox>
-              <SizeBox>
-                {size.map((el, idx) => {
-                  return (
-                    <SizeBtn
-                      state={sizeState[idx]}
-                      onClick={() => {
-                        const newSizeState = sizeState.map((state, i) =>
-                          i === idx ? true : false
-                        );
-                        setSizeState(newSizeState);
-                      }}
-                    >
-                      {el}
-                    </SizeBtn>
-                  );
-                })}
-              </SizeBox>
-            </InfoBox>
-            <InfoBox style={{ marginBottom: "30px" }}>
-              <InfoTitleBox>할인 금액</InfoTitleBox>
-              <InfoInput type="text"></InfoInput>
-            </InfoBox>
-          </Modal>
+          <ModalOverlay onClick={() => setIsSecond(false)}>
+            <ModalContent>
+              <ContentBox onClick={(e) => e.stopPropagation()}>
+                <TitleBox>이 정보가 맞나요?</TitleBox>
+                <ExplainBox>
+                  OCR을 사용하여 영수증에서 추출한 정보들을 토대로
+                  <br />
+                  자동으로 입력한 정보에요!
+                </ExplainBox>
+                <InfoBox style={{ marginTop: "25px" }}>
+                  <InfoTitleBox>날짜</InfoTitleBox>
+                  <InfoInput
+                    type="text"
+                    value={receiptData.orderedAt}
+                    onChange={hanldeOnChangeDate}
+                  ></InfoInput>
+                </InfoBox>
+                <InfoBox>
+                  <InfoTitleBox>메뉴</InfoTitleBox>
+                  <InfoInput
+                    type="text"
+                    value={receiptData.menu}
+                    onChange={hanldeOnChangeMenu}
+                  ></InfoInput>
+                </InfoBox>
+                <InfoBox>
+                  <InfoTitleBox>사이즈</InfoTitleBox>
+                  <SizeBox>
+                    {size.map((el, idx) => {
+                      return (
+                        <SizeBtn
+                          state={sizeState[idx]}
+                          onClick={() => {
+                            const newSizeState = sizeState.map((state, i) =>
+                              i === idx ? true : false
+                            );
+                            setSizeState(newSizeState);
+                          }}
+                        >
+                          {el}
+                        </SizeBtn>
+                      );
+                    })}
+                  </SizeBox>
+                </InfoBox>
+                <InfoBox style={{ marginBottom: "30px" }}>
+                  <InfoTitleBox>할인 금액</InfoTitleBox>
+                  <InfoInput
+                    type="text"
+                    value={receiptData.discountPrice}
+                    onChange={handleOnChangeDiscountPrice}
+                  ></InfoInput>
+                </InfoBox>
+              </ContentBox>
+              <ButtonBox onClick={TumblogEnroll}>
+                <Button text={"등록하기"}></Button>
+              </ButtonBox>
+            </ModalContent>
+          </ModalOverlay>
         </>
       )}
     </>
@@ -330,5 +484,28 @@ const CustomFileInput = styled.div`
     text-underline-position: under;
   }
 `;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+`;
+
+const ContentBox = styled.div``;
+
+const ButtonBox = styled.div``;
 
 export default Home;

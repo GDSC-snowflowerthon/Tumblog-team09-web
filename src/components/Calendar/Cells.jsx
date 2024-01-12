@@ -12,15 +12,14 @@ import { useEffect, useRef, useState } from "react";
 import COLORS from "../../styles/colors";
 import { useAtom } from "jotai";
 import { modalState } from "../../atoms/modalState";
-
+import axios from "../../api/axios";
+import { DateConverter } from "../utils/DateConverter";
 const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
   const [data, setData] = useState([]);
-  const [selectday, setSelectday] = useState(new Date());
-  const [state, setState] = useState(false);
   const statedayRef = useRef("");
   const [isOpen, setIsOpen] = useAtom(modalState);
 
@@ -30,10 +29,18 @@ const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
   let formatDate = "";
 
   useEffect(() => {
-    schedule.map((el) => {
-      setData((prev) => [el.day, ...prev]);
-    });
-  }, [schedule]);
+    axios
+      .get(`users/home/1/2024/${currentMonth.getMonth() + 1}`)
+      .then((res) => {
+        console.log(res.data.result.monthlyTumbles);
+        setData(res.data.result.monthlyTumbles);
+      });
+  }, []);
+
+  const SetColorDate = (targetDate) => {
+    const isDateInData = data.some((item) => item.createdDate === targetDate);
+    return isDateInData;
+  };
 
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
@@ -41,6 +48,7 @@ const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
       const cloneDay = day;
       statedayRef.current = day.toDateString();
       const string = cloneDay.toDateString();
+      const calDate = DateConverter(string);
       days.push(
         <Container>
           <CellBox
@@ -56,7 +64,9 @@ const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
                     }`}
             onClick={() => {
               onDateClick(cloneDay);
-              setIsOpen(!isOpen);
+              if (!SetColorDate(calDate)) {
+                setIsOpen(!isOpen);
+              }
             }}
           >
             <Square>
@@ -66,7 +76,7 @@ const Cells = ({ currentMonth, selectedDate, onDateClick, schedule }) => {
                     ? "text not-valid"
                     : ""
                 }`}
-                use={true}
+                use={SetColorDate(calDate)}
               />
             </Square>
             <span
