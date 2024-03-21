@@ -1,70 +1,24 @@
-# Getting Started with Create React App
+# 함께 만드는 텀블러 사용일지, Tumblog
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+homepage: https://tumblog-team09-web.vercel.app/
 
-## Available Scripts
+### 기술스택
+react, axios, jotai, styled-components
 
-In the project directory, you can run:
+![슬라이드7](https://github.com/GDSC-snowflowerthon/tumblog-team09-web/assets/58413633/24fb7387-20fa-4155-a9d7-aa22231ab380)
 
-### `npm start`
+![슬라이드8](https://github.com/GDSC-snowflowerthon/tumblog-team09-web/assets/58413633/fe43a31d-d497-470f-b7bf-1a6069c0a1b5)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![슬라이드9](https://github.com/GDSC-snowflowerthon/tumblog-team09-web/assets/58413633/160d5bc0-7d48-4aab-9ca9-b2217e1de2ca)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![슬라이드10](https://github.com/GDSC-snowflowerthon/tumblog-team09-web/assets/58413633/345b3ab5-f549-4986-8f82-7ba331421464)
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![슬라이드12](https://github.com/GDSC-snowflowerthon/tumblog-team09-web/assets/58413633/90aeaf0e-1f4e-4573-9358-e3c1c6f62d74)
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![슬라이드13](https://github.com/GDSC-snowflowerthon/tumblog-team09-web/assets/58413633/45f788f5-7fb1-4cc0-a5f2-99a7fa8af84e)
+![슬라이드14](https://github.com/GDSC-snowflowerthon/tumblog-team09-web/assets/58413633/09430ad0-83d2-4b6f-b068-0549671eeb8b)
+![슬라이드15](https://github.com/GDSC-snowflowerthon/tumblog-team09-web/assets/58413633/6cb39463-a246-48ba-83da-4effe6ebc781)
+![슬라이드16](https://github.com/GDSC-snowflowerthon/tumblog-team09-web/assets/58413633/caa1cdcc-472c-47ed-8c47-81666a8dc3b5)
+![슬라이드17](https://github.com/GDSC-snowflowerthon/tumblog-team09-web/assets/58413633/1af09274-ee8f-4e78-8d41-dee5540de3ae)
